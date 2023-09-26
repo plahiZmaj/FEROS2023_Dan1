@@ -35,6 +35,14 @@
 /home/student/FEROS2023_Dan1/catkin_ws/build/gtest/googlemock/gtest/CMakeFiles/list_install_components.dir
 /home/student/FEROS2023_Dan1/catkin_ws/build/gtest/googlemock/gtest/CMakeFiles/gtest.dir
 /home/student/FEROS2023_Dan1/catkin_ws/build/gtest/googlemock/gtest/CMakeFiles/rebuild_cache.dir
+/home/student/FEROS2023_Dan1/catkin_ws/build/fe_urko/CMakeFiles/install/strip.dir
+/home/student/FEROS2023_Dan1/catkin_ws/build/fe_urko/CMakeFiles/install/local.dir
+/home/student/FEROS2023_Dan1/catkin_ws/build/fe_urko/CMakeFiles/test.dir
+/home/student/FEROS2023_Dan1/catkin_ws/build/fe_urko/CMakeFiles/list_install_components.dir
+/home/student/FEROS2023_Dan1/catkin_ws/build/fe_urko/CMakeFiles/edit_cache.dir
+/home/student/FEROS2023_Dan1/catkin_ws/build/fe_urko/CMakeFiles/_catkin_empty_exported_target.dir
+/home/student/FEROS2023_Dan1/catkin_ws/build/fe_urko/CMakeFiles/rebuild_cache.dir
+/home/student/FEROS2023_Dan1/catkin_ws/build/fe_urko/CMakeFiles/install.dir
 /home/student/FEROS2023_Dan1/catkin_ws/build/test2/CMakeFiles/install/strip.dir
 /home/student/FEROS2023_Dan1/catkin_ws/build/test2/CMakeFiles/list_install_components.dir
 /home/student/FEROS2023_Dan1/catkin_ws/build/test2/CMakeFiles/edit_cache.dir

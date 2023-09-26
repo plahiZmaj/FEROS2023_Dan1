@@ -1,2 +1,2 @@
-test2
+fe_urko:test2
 -DCATKIN_DEVEL_PREFIX=/home/student/FEROS2023_Dan1/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/student/FEROS2023_Dan1/catkin_ws/install -G Unix Makefiles

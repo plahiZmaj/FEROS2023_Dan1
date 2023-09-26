@@ -11,7 +11,7 @@ if __name__ == '__main__':
     tf_broad = tf2_ros.StaticTransformBroadcaster()
 
     ##### FILL IN THE APPROPRIATE FILENAME. HINT: USE `raw_input()`
-    file_name = "test"
+    file_name = raw_input("Vnesi ime datoteke iz ketere beremo: ")
 
     infile = open(file_name,'rb')
     stored_poses = pickle.load(infile)
@@ -22,10 +22,6 @@ if __name__ == '__main__':
 
     print(list1)
     infile.close()
-
-    #########################
-    ##### STUDENT WRITES ####
-    #########################
     
     tf_broad.sendTransform(list1)
     #########################

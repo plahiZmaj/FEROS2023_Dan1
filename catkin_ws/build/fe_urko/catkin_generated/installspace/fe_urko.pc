@@ -1,0 +1,8 @@
+prefix=/home/student/FEROS2023_Dan1/catkin_ws/install
+
+Name: fe_urko
+Description: Description of fe_urko
+Version: 0.1.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
