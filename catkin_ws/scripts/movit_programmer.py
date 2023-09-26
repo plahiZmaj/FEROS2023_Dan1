@@ -6,6 +6,7 @@ import moveit_commander
 import numpy as np
 import tf2_ros
 from geometry_msgs.msg import Pose
+from copy import deepcopy
 
 JOINT_NAMES = [
     'shoulder_pan_joint',
@@ -38,8 +39,8 @@ if __name__ == '__main__':
     joint_goal = moveit_interface.get_current_joint_values()#definicija tarce
     rospy.loginfo(joint_goal)
 
-    #joint_goal[2] = - HOME_JOINTS[2]
-    #rospy.loginfo(joint_goal)
+    joint_goal = HOME_JOINTS
+    rospy.loginfo(joint_goal)
 
     #moveit_interface.go(joint_goal, wait=True)
 
@@ -56,6 +57,7 @@ if __name__ == '__main__':
     # Move in Cartesian space
     tf_buffer = tf2_ros.Buffer()
     tf_listener = tf2_ros.TransformListener(tf_buffer)
+    tf_broadcaster = tf2_ros.StaticTransformBroadcaster()
 
     rospy.sleep(0.5)
 
@@ -69,8 +71,47 @@ if __name__ == '__main__':
     raw_input("Press Enter")
     pose_goal = Pose(
         position=current_transform.transform.translation, orientation=current_transform.transform.rotation)
-    pose_goal.position.z += 0.1
+    #pose_goal.position.z += 0.1
+    #moveit_interface.go(pose_goal, wait=True)
+
+    target_transform = tf_buffer.lookup_transform(
+    'base_link',
+    'target_1',
+    rospy.Time(0)
+    )
+
+    # premakni se 15cm nad target 1
+    target_transform.transform.translation.z += 0.15
+    target_transform.child_frame_id = 'target_offset'
+
+    # Publish the frame and give the broadcaster some time
+    tf_broadcaster.sendTransform(target_transform)
+    rospy.sleep(0.5)
+
+    # Now lookup the transform from the robot's base to the target offset
+    offset_transform = tf_buffer.lookup_transform(
+        'base_link',
+        'target_offset',
+        rospy.Time(0)
+    )
+
+    # Convert it to pose and send it to the robot
+    pose_goal = Pose(
+    position=offset_transform.transform.translation, orientation=offset_transform.transform.rotation)
     moveit_interface.go(pose_goal, wait=True)
+
+    moveit_interface.shift_pose_target(2 ,-0.20)
+    rospy.sleep(0.5)
+    moveit_interface.execute(moveit_interface.plan(),wait=True)
+
+
+    moveit_interface.shift_pose_target(2 ,+0.4)
+    rospy.sleep(0.5)
+    moveit_interface.execute(moveit_interface.plan(),wait=True)
+    
+
+    
+
 
 
 
