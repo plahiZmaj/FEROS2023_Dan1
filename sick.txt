@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+
+import rospy
+import RPi.GPIO as GPIO
+from std_msgs.msg import Bool
+from sensor_msgs.msg import LaserScan
+
+# buttons GPIO pins 
+#   button 1 - gpio 11
+#   button 2 - gpio 12
+
+class rpi_button():
+    
+    def __init__(self):
+     
+        # define publisher
+        # rospy.Publisher("topic_name", varType, queue_size)
+        self.pub = rospy.Publisher('/button_state', Bool, queue_size=10)
+        self.sub = rospy.Subscriber('/sick_safteyscanners/scan', LaserScan, self.laser_callback)
+
+        self.ctrl_c = False
+        rospy.on_shutdown(self.shutdownhook)
+    
+    def laser_callback(self, msgScan):
+        # the code that is executed when data is received
+        # turn on LED
+        razdalja=msgScan.ranges[825]
+
+        self.msg = Bool()
+        if(razdalja > 1.00):
+            self.msg.data = True
+        else:
+            self.msg.data = False    
+        self.publish_once()
+
+    def publish_once(self):
+        """
+        This is because publishing in topics sometimes fails the first time you publish.
+        In continuous publishing systems, this is no big deal, but in systems that publish only
+        once, it IS very important.
+        """
+        while not self.ctrl_c:
+            connections = self.pub.get_num_connections()
+            if connections > 0:
+                self.pub.publish(self.msg.data)
+                #rospy.loginfo("Msg Published")
+                break
+            else:
+                self.rate.sleep()
+       
+    def shutdownhook(self):
+        # works better than the rospy.is_shutdown()
+        # this code is run at ctrl + c
+
+        # clear all GPIO settings
+        GPIO.cleanup()
+        self.ctrl_c = True
+            
+if __name__ == '__main__':
+    # initialise node
+    rospy.init_node('button_state_publisher', anonymous=True)
+
+    # initialise class
+    btn = rpi_button()
+    try:
+        btn.laser_callback()
+    except rospy.ROSInterruptException:
+        pass
